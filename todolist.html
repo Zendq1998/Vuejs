@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+  
+</head>
+<body>
+<div id="app">
+  <input v-model="message" @keyup.enter.self="Addtodo">
+  <input type="checkbox" @click.self="Toggleall" >全选
+ <button v-text="del" @click.self="Delall"></button>  完成所选任务
+ <button v-text="doing" @click.self="Doall"></button> 开始所选任务
+  <ol>
+    <li v-for="todo in todos">
+      <p :class="{finished:todo.finished}" style="display:inline-block">{{todo.text}}</p>
+      <input type="checkbox" style="display:inline-block" v-model="todo.toggle">
+      <button v-text="doing"
+        @click.self="Doit(todo)"
+      ></button>
+      <button v-text="del"
+      @click.self="Del(todo)"></button>
+    </li>
+  </ol>
+</div>
+
+<style>
+     .finished{  
+    text-decoration:underline
+  }
+</style>
+
+<script>
+    var app = new Vue({
+      el:'#app',
+      data:{
+        todos:[
+          {index:0,text:"学习JavaScript",finished:false,toggle:false},
+          {index:1,text:"学习vuejs",finished:false,toggle:false},
+          {index:2,text:"写作业",finished:false,toggle:false}
+        ],
+        message:"",
+        del:'×',
+        doing:'√',
+       
+      },
+      methods:{
+      Addtodo: function(){
+        if(this.message){      
+          this.todos.push({index:this.todos.length,text:this.message,finished:false})
+          this.message=""
+        }    
+      },  
+      Doit: function(todo){
+       todo.finished=!todo.finished
+      },  
+      Del: function(todo){
+       this.todos.splice(todo.index,1)
+       for(var i=todo.index;i<this.todos.length;i++){
+         this.todos[i].index--;
+       }
+      },
+      Toggleall: function(){
+       
+        this.todos.forEach(function(todo){
+          todo.toggle=!todo.toggle
+        })
+      },
+      Delall: function(){
+       for(var i=0;i<this.todos.length;i++){
+         if(this.todos[i].toggle){
+           this.todos.splice(i,1)
+           for(var j=i;j<this.todos.length;j++){
+             this.todos[j].index--
+           }
+           i--
+         }
+       }
+      },
+      Doall: function(){
+        this.todos.forEach(function(todo){
+          if(todo.toggle){
+            todo.finished=true
+          }
+        })
+      }
+    }
+    })
+</script>
+</body>
+</html>
