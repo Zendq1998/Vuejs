@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+    <title>JS Bin</title>
+</head>
+
+<body>
+    <div id="app">
+        <textarea cols="30" rows="10" v-model="message1"></textarea>
+        <p>文本的值是：{{message1}}</p>
+        <br>
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{checked}}</label>
+        <br>
+        <input type="checkbox" id="Jack" value="jack" v-model="chosedname">
+        <label for="Jack">jack</label>
+        <input type="checkbox" id="John" value="john" v-model="chosedname">
+        <label for="John">hohn</label>
+        <input type="checkbox" id="Bran" value="bran" v-model="chosedname">
+        <label for="Bran">bean</label>
+        <p>您选的是{{chosedname}}</p>
+        <br>
+        <input type="radio" id="apple" value="Apple" v-model="picked">
+        <label for="apple">apple</label>
+        <input type="radio" id="banana" value="Bnana" v-model="picked">
+        <label for="banana">banana</label>
+        <p>您选的是{{picked}}</p>
+    </div>
+</body>
+
+
+
+</html>
+
+
+<script>
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message1: "政府希望减少公共事业的开支",
+            checked: true,
+            chosedname: [],
+            picked: ''
+        }
+    })
+
+
+</script>

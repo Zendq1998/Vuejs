@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+    <title>JS Bin</title>
+</head>
+
+<body>
+    <div id="app">
+        <textarea cols="30" rows="10" v-model="message1"></textarea>
+        <p>{{message1}}</p>
+        <br>
+        <input type="checkbox" id="one" v-model="checked">
+        <label for="one">{{checked}}</label>
+        <br>
+        <input type="checkbox" value="Jack" id="jack" v-model="chosedname">
+        <label for="jack">Jack</label>
+        <!-- 复选框 v-model的值是一个数组 若数组中存在一个元素等于value值则表示选中的状态 -->
+        <input type="checkbox" value="John" id="john" v-model="chosedname">
+        <label for="john">John</label>
+        <input type="checkbox" value="Bran" id="bran" v-model="chosedname">
+        <label for="bran">Bran</label>
+        <p>you chosed:{{chosedname}}</p>
+        <br>
+        <input type="radio" value="one" id="one" v-model="picked">
+        <!-- 单选框 选中状态：v-model的值等于value -->
+        <input type="radio" value="two" id="two" v-model="picked">
+        <p>picked {{picked}}</p>
+    </div>
+</body>
+
+
+
+</html>
+
+
+<script>
+
+    var app = new Vue({
+        el: '#app',
+        data:{
+            message1:"政府希望减少公共事业的开支",
+            checked:true,
+            chosedname:[],
+            picked:''
+        }
+    })
+
+
+</script>

@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <title>购物车示例</title>
+        <link rel="stylesheet" href="style/style1.css">
+    </head>
+    <body>
+        <div id="app" v-cloak>
+            <template v-if="list.length">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>商品名称</th>
+                            <th>商品单价</th>
+                            <th>购买数量</th>
+                            <th>操作</th>
+                            <th>
+                                <input type="checkbox" id="checkall" v-model="ifall" @click="checkall" class="pointer">
+                                <label for="checkall" class="pointer">全选</label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in list">
+                            <td>{{ index+1 }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.price }}</td>
+                            <td> 
+                                <button
+                                    class="pointer"
+                                    @click="handleReduce(index)"
+                                    :disabled="item.count === 1">-</button>
+                                {{ item.count }}
+                                <button 
+                                     class="pointer"
+                                    @click="handleAdd(index)">+</button>
+                            </td>
+                            <td>
+                                <button 
+                                     class="pointer"
+                                    @click="handleRemove(index)">移除</button>
+                            </td>
+                            <td>
+                                <input type="checkbox" :value="item.id" v-model="checked" class="pointer">
+                            </td>
+                        </tr>
+                        <tr></tr>
+                    </tbody>
+                </table>
+                <div>总价： ￥{{totalPrice}}</div>
+            </template>
+            <div v-else>购物车为空~</div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+        <script src="js/index1.js"></script>
+    </body>
+</html>

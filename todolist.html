@@ -3,27 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>JS Bin</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+  <title>Todo List</title>
+
   
 </head>
 <body>
 <div id="app">
-  <input v-model="message" @keyup.enter.self="Addtodo">
-  <input type="checkbox" @click.self="Toggleall" >全选
- <button v-text="del" @click.self="Delall"></button>  完成所选任务
- <button v-text="doing" @click.self="Doall"></button> 开始所选任务
+  <input v-model="message" @keyup.enter.self="Addtodo" placeholder="您打算做什么？" style="display:block;">
+  <br>
+  <input type="checkbox" @click.self="Toggleall" v-model="checkedall">全选
+  <button v-text="del" @click.self="Delall"></button> 完成所选任务
+  <button v-text="doing" @click.self="Doall"></button> 开始所选任务
   <ol>
     <li v-for="todo in todos">
-      <p :class="{finished:todo.finished}" style="display:inline-block">{{todo.text}}</p>
-      <input type="checkbox" style="display:inline-block" v-model="todo.toggle">
-      <button v-text="doing"
-        @click.self="Doit(todo)"
-      ></button>
-      <button v-text="del"
-      @click.self="Del(todo)"></button>
+      <p :class="{finished:todo.finished}">{{todo.text}}</p>
+      <input type="checkbox" style="display:inline-block" v-model="checked" :value='todo'>
+      <button v-text="doing" @click.self="Doit(todo)"></button>
+      <button v-text="del" @click.self="Del(todo)"></button>
     </li>
   </ol>
+
+</div>
 </div>
 
 <style>
@@ -32,62 +32,68 @@
   }
 </style>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+
 <script>
     var app = new Vue({
-      el:'#app',
-      data:{
-        todos:[
-          {index:0,text:"学习JavaScript",finished:false,toggle:false},
-          {index:1,text:"学习vuejs",finished:false,toggle:false},
-          {index:2,text:"写作业",finished:false,toggle:false}
-        ],
-        message:"",
-        del:'×',
-        doing:'√',
-       
-      },
-      methods:{
-      Addtodo: function(){
-        if(this.message){      
-          this.todos.push({index:this.todos.length,text:this.message,finished:false})
-          this.message=""
-        }    
-      },  
-      Doit: function(todo){
-       todo.finished=!todo.finished
-      },  
-      Del: function(todo){
-       this.todos.splice(todo.index,1)
-       for(var i=todo.index;i<this.todos.length;i++){
-         this.todos[i].index--;
-       }
-      },
-      Toggleall: function(){
-       
-        this.todos.forEach(function(todo){
-          todo.toggle=!todo.toggle
-        })
-      },
-      Delall: function(){
-       for(var i=0;i<this.todos.length;i++){
-         if(this.todos[i].toggle){
-           this.todos.splice(i,1)
-           for(var j=i;j<this.todos.length;j++){
-             this.todos[j].index--
-           }
-           i--
-         }
-       }
-      },
-      Doall: function(){
-        this.todos.forEach(function(todo){
-          if(todo.toggle){
-            todo.finished=true
+        el: '#app',
+        data: {
+          todos: [
+            { text: "学习JavaScript", finished: false },
+            { text: "学习vuejs", finished: false },
+            { text: "写作业", finished: false }
+          ],
+          message: "",
+          del: '×',
+          doing: '√',
+          checked: [],
+          checkedall: false
+        },
+        methods: {
+          Addtodo: function () {
+            if (this.message) {
+              this.todos.push({ text: this.message, finished: false })
+              this.message = ""
+            }
+          },
+          Doit: function (todo) {
+            todo.finished = !todo.finished
+          },
+          Del: function (todo) {
+            this.todos.splice(this.todos.indexOf(todo), 1)
+            this.checked.splice(this.todos.indexOf(todo), 1)
+          },
+          Toggleall: function () {
+            if (!this.checkedall) {
+              this.todos.forEach(function (todo) {
+                app.checked.push(todo)
+              })
+              app.checkedall = true
+            }
+            else {
+              this.todos.forEach(function (todo) {
+                app.checked.shift()
+              })
+              app.checkedall = false
+            }
+          },
+          Delall: function () {
+            this.checked.forEach(function (todo) {
+              app.todos.splice(app.todos.indexOf(todo), 1)
+              console.log(todo)
+            })
+            this.checked = []
+          },
+          Doall: function () {
+            this.todos.forEach(function (todo) {
+              var i = app.todos.indexOf(todo)
+              if (app.checked.indexOf(todo) >= 0) {
+                app.todos[i].finished = !app.todos[i].finished
+              }
+            })
           }
-        })
-      }
-    }
-    })
+        }
+      })
 </script>
 </body>
 </html>
