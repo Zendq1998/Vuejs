@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+    <title>JS Bin</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <p>{{Total}}</p>
+        <my-component
+            @getotal="GetTotal"></my-component>
+    </div>
+</body>
+
+</html>
+
+<script>
+    Vue.component('my-component',{
+        template:`<div>
+    <button @click="increase">+1</button>
+    <button @click="reduce">-1</button>
+</div>`,
+        data: function(){
+            return {
+                total:0
+            }
+        },
+        methods:{
+            increase:function(){
+                this.total++;
+                this.$emit('getotal',this.total);
+            },
+            reduce:function(){
+                this.total--;
+                this.$emit('getotal',this.total);
+            }
+        }
+    })
+
+    var app = new Vue({
+        el:'#app',
+        data: {
+            Total:0
+        },
+        methods:{
+            GetTotal: function(total) {
+                this.Total = total;
+            }
+        }
+    })
+</script>
